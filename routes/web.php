@@ -7,3 +7,6 @@ Route::get('/', function () {
 });
 
 Route::get('/register', \App\Http\Controllers\Register\IndexController::class);
+
+Route::get('/email/verification', function (){})
+    ->name('email.verification');
