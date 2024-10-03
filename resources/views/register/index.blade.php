@@ -13,7 +13,8 @@
 </head>
 <body>
     <h1>Register</h1>
-    <form>
+    <form action="{{ route('register.store') }}" method="post">
+        @csrf
         <p>email</p>
         <input name="email"/>
         <button
