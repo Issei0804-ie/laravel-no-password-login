@@ -6,9 +6,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/register', \App\Http\Controllers\Register\IndexController::class);
+Route::get('/register', \App\Http\Controllers\Register\IndexController::class)
+    ->name('register.index');
 Route::post('/register', \App\Http\Controllers\Register\StoreController::class)
     ->name('register.store');
 
-Route::get('/email/verification', function (){})
-    ->name('email.verification');
+Route::get('/register/verification', \App\Http\Controllers\Register\Verification\IndexController::class)
+    ->middleware('signed')
+    ->name('register.verification.index');

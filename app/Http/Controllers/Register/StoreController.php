@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Register\StoreRequest;
 use App\Models\User;
 use App\Notifications\VerificationEmailIsOwn;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 
 class StoreController extends Controller
@@ -22,11 +23,16 @@ class StoreController extends Controller
         ]);
 
         $signedUrl = URL::temporarySignedRoute(
-            name:'email.verification',
-            expiration: now()->addHour(),
+            'register.verification.index',
+             now()->addHour(),
+            [
+                'hash' => hash('sha256',$validatedParams['email']),
+            ]
         );
 
         $user->notify(new VerificationEmailIsOwn($signedUrl));
+
+        Auth::login($user);
 
         return view('register.success',[
             'name' => $user->name,
